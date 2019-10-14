@@ -2,9 +2,9 @@
 // eslint-disable-next-line import/prefer-default-export
 const axios = require('axios');
 const HttpErrors = require('http-errors');
-const CircularJSON = require('circular-json');
+const { stringify } = require('flatted/cjs');
 
-const { CREATETICKETTYPE } = require('./config/constant.js');
+const { CREATETICKETTYPE } = require('./config/constant');
 
 const isNull = function (val) {
   if (typeof val === 'string') { val = val.trim(); }
@@ -13,15 +13,6 @@ const isNull = function (val) {
   }
   return false;
 };
-const isValidEmail = (val) => {
-  val = getFormattedEmail(val);
-  var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-  return regex.test(val);
-};
-
-const getFormattedEmail = (val) => {
-  return val.trim().toLowerCase();
-}
 
 const isJson = (str) => {
   try {
@@ -58,7 +49,7 @@ const createTicketType = function (payload, BASE_URL, callback) {
       axios.post(url, payload).then(response => {
         return callback(response);
       }).catch((error) => {
-        let json = CircularJSON.stringify(error);
+        let json = stringify(error);
         return callback(json);
       });
     }

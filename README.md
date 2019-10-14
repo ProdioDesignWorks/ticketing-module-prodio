@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
 
 
-`ticketing-module-prodio` is an  node js client for the  `ticketing-prodio API`. Integrate in to any application to perform auth releted user journeys.
+`ticketing-module-prodio` is an  node js client for the  `ticketing-prodio API`. Integrate in to any application to perform ticketing releted user journeys.
 
 # Features!
   
@@ -45,7 +45,7 @@ Require the ticketing-module-prodio module and initialize the ticketingSdk clien
 ```JSX
 
  const ticket = require('ticketing-module-prodio');
- const ticketModule = new auth("API BASE PATH OF TICKETING SERVICE");//http://domainname:3004/api
+ const ticketModule = new ticket("API BASE PATH OF TICKETING SERVICE");//http://domainname:3004/api
  ``` 
 
 
