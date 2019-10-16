@@ -64,12 +64,78 @@ Require the ticketing-module-prodio module and initialize the ticketingSdk clien
 #### Example
 ```JSX
 	const metaInfo = {
-		"label": "Task",
-		"value": "TASK",
-		"hexcode": "#ffffff"
+		"label": "Task", //mandatory
+		"value": "TASK", //mandatory
+		"hexcode": "#ffffff" //optional
 	};
 	const payload = {
 		"action": "CREATETICKETTYPE",
+		"meta": metaInfo
+	};
+	let ticketType = ticketModule.execute(payload);
+```
+
+`2. Edit Ticket Types:`
+ This will edit an existing ticket type. Edit operation will be performed based on the value key which cannot be updated.
+
+### Payload
+
+| Key | Type | Value | Description | Required |
+| --- | ---- | ----- | ----------- | -------- |
+| `action` | string | `EDITTICKETTYPE` | key which defines the type of action to be performed | YES |
+| `meta` | json | refer example below | - | YES |
+
+#### Example
+```JSX
+	const metaInfo = {
+		"label": "Task", //mandatory
+		"value": "TASK", //mandatory
+		"hexcode": "#ffffff" //optional
+	};
+	const payload = {
+		"action": "EDITTICKETTYPE",
+		"meta": metaInfo
+	};
+	let ticketType = ticketModule.execute(payload);
+```
+
+`3. List Ticket Types:`
+ This will list all ticket types.
+
+### Payload
+
+| Key | Type | Value | Description | Required |
+| --- | ---- | ----- | ----------- | -------- |
+| `action` | string | `LISTTICKETTYPE` | key which defines the type of action to be performed | YES |
+| `meta` | json | refer example below | - | YES |
+
+#### Example
+```JSX
+	const metaInfo = {};
+	const payload = {
+		"action": "LISTTICKETTYPE",
+		"meta": metaInfo
+	};
+	let ticketType = ticketModule.execute(payload);
+```
+
+`4. Delete Ticket Types:`
+ This will list all ticket types.
+
+### Payload
+
+| Key | Type | Value | Description | Required |
+| --- | ---- | ----- | ----------- | -------- |
+| `action` | string | `DELETETICKETTYPE` | key which defines the type of action to be performed | YES |
+| `meta` | json | refer example below | - | YES |
+
+#### Example
+```JSX
+	const metaInfo = {
+		"value": "TASK", //mandatory
+	};
+	const payload = {
+		"action": "DELETETICKETTYPE",
 		"meta": metaInfo
 	};
 	let ticketType = ticketModule.execute(payload);

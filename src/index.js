@@ -4,7 +4,9 @@ const axios = require('axios');
 const HttpErrors = require('http-errors');
 const { stringify } = require('flatted/cjs');
 
-const { CREATETICKETTYPE } = require('./config/constant');
+const {
+  CREATETICKETTYPE, EDITTICKETTYPE, LISTTICKETTYPE, DELETETICKETTYPE
+} = require('./config/constant');
 
 const isNull = function (val) {
   if (typeof val === 'string') { val = val.trim(); }
@@ -31,6 +33,12 @@ function ticketModule(BASE_URL) {
     // action key calls api.
     if (payload.action === CREATETICKETTYPE) {
       return createTicketType(payload, BASE_URL, callback);
+    } else if (payload.action === EDITTICKETTYPE) {
+      return editTicketType(payload, BASE_URL, callback);
+    } else if (payload.action === LISTTICKETTYPE) {
+      return listTicketType(BASE_URL, callback);
+    } else if (payload.action === DELETETICKETTYPE) {
+      return deleteTicketType(payload, BASE_URL, callback);
     } else {
       return callback(new HttpErrors.BadRequest('Invalid Action.', { expose: false }));
     }
@@ -45,13 +53,65 @@ const createTicketType = function (payload, BASE_URL, callback) {
     if (!isJson(payload)) {
       return callback(new HttpErrors.BadRequest('Payload meta must be a JSON object.', { expose: false }));
     } else {
-      const url = `${BASE_URL}/model/endpoint`;
+      const url = `${BASE_URL}/ticketTypes/add`;
       axios.post(url, payload).then(response => {
         return callback(response);
       }).catch((error) => {
         let json = stringify(error);
         return callback(json);
       });
+    }
+  }
+}
+
+const editTicketType = function (payload, BASE_URL, callback) {
+  if (!isJson(payload)) {
+    return callback(new HttpErrors.BadRequest('Payload must be a JSON object.', { expose: false }));
+  } else {
+    payload = payload.meta;
+    if (!isJson(payload)) {
+      return callback(new HttpErrors.BadRequest('Payload meta must be a JSON object.', { expose: false }));
+    } else {
+      const url = `${BASE_URL}/ticketTypes/edit`;
+      axios.put(url, payload).then(response => {
+        return callback(response);
+      }).catch((error) => {
+        let json = stringify(error);
+        return callback(json);
+      });
+    }
+  }
+}
+
+const listTicketType = function (BASE_URL, callback) {
+  const url = `${BASE_URL}/ticketTypes/list`;
+  axios.get(url, payload).then(response => {
+    return callback(response);
+  }).catch((error) => {
+    let json = stringify(error);
+    return callback(json);
+  });
+}
+
+const deleteTicketType = function (payload, BASE_URL, callback) {
+  if (!isJson(payload)) {
+    return callback(new HttpErrors.BadRequest('Payload must be a JSON object.', { expose: false }));
+  } else {
+    payload = payload.meta;
+    if (!isJson(payload)) {
+      return callback(new HttpErrors.BadRequest('Payload meta must be a JSON object.', { expose: false }));
+    } else {
+      if (isNull(payload.value)) {
+        return callback(new HttpErrors.BadRequest('Value of ticket type is missing.', { expose: false }));
+      } else {
+        const url = `${BASE_URL}/ticketTypes/remove?ticketTypeValue=${payload.value}`;
+        axios.delete(url, payload).then(response => {
+          return callback(response);
+        }).catch((error) => {
+          let json = stringify(error);
+          return callback(json);
+        });
+      }
     }
   }
 }
