@@ -5,7 +5,8 @@ const HttpErrors = require('http-errors');
 const { stringify } = require('flatted/cjs');
 
 const {
-  CREATETICKETTYPE, EDITTICKETTYPE, LISTTICKETTYPE, DELETETICKETTYPE
+  CREATETICKETTYPE, EDITTICKETTYPE, LISTTICKETTYPE, DELETETICKETTYPE,
+  CREATETICKETACTION, EDITTICKETACTION, LISTTICKETACTION, DELETETICKETACTION
 } = require('./config/constant');
 
 const isNull = function (val) {
@@ -39,6 +40,14 @@ function ticketModule(BASE_URL) {
       return listTicketType(BASE_URL, callback);
     } else if (payload.action === DELETETICKETTYPE) {
       return deleteTicketType(payload, BASE_URL, callback);
+    } else if (payload.action === CREATETICKETACTION) {
+      return createTicketAction(payload, BASE_URL, callback);
+    } else if (payload.action === EDITTICKETACTION) {
+      return editTicketAction(payload, BASE_URL, callback);
+    } else if (payload.action === LISTTICKETACTION) {
+      return listTicketAction(payload, BASE_URL, callback);
+    } else if (payload.action === DELETETICKETACTION) {
+      return deleteTicketAction(payload, BASE_URL, callback);
     } else {
       return callback(new HttpErrors.BadRequest('Invalid Action.', { expose: false }));
     }
@@ -105,6 +114,77 @@ const deleteTicketType = function (payload, BASE_URL, callback) {
         return callback(new HttpErrors.BadRequest('Value of ticket type is missing.', { expose: false }));
       } else {
         const url = `${BASE_URL}/ticketTypes/remove?ticketTypeValue=${payload.value}`;
+        axios.delete(url, payload).then(response => {
+          return callback(response);
+        }).catch((error) => {
+          let json = stringify(error);
+          return callback(json);
+        });
+      }
+    }
+  }
+}
+
+const createTicketAction = function (payload, BASE_URL, callback) {
+  if (!isJson(payload)) {
+    return callback(new HttpErrors.BadRequest('Payload must be a JSON object.', { expose: false }));
+  } else {
+    payload = payload.meta;
+    if (!isJson(payload)) {
+      return callback(new HttpErrors.BadRequest('Payload meta must be a JSON object.', { expose: false }));
+    } else {
+      const url = `${BASE_URL}/ticketActions/add`;
+      axios.post(url, payload).then(response => {
+        return callback(response);
+      }).catch((error) => {
+        let json = stringify(error);
+        return callback(json);
+      });
+    }
+  }
+}
+
+const editTicketAction = function (payload, BASE_URL, callback) {
+  if (!isJson(payload)) {
+    return callback(new HttpErrors.BadRequest('Payload must be a JSON object.', { expose: false }));
+  } else {
+    payload = payload.meta;
+    if (!isJson(payload)) {
+      return callback(new HttpErrors.BadRequest('Payload meta must be a JSON object.', { expose: false }));
+    } else {
+      const url = `${BASE_URL}/ticketActions/edit`;
+      axios.put(url, payload).then(response => {
+        return callback(response);
+      }).catch((error) => {
+        let json = stringify(error);
+        return callback(json);
+      });
+    }
+  }
+}
+
+const listTicketAction = function (BASE_URL, callback) {
+  const url = `${BASE_URL}/ticketActions/list`;
+  axios.get(url, payload).then(response => {
+    return callback(response);
+  }).catch((error) => {
+    let json = stringify(error);
+    return callback(json);
+  });
+}
+
+const deleteTicketAction = function (payload, BASE_URL, callback) {
+  if (!isJson(payload)) {
+    return callback(new HttpErrors.BadRequest('Payload must be a JSON object.', { expose: false }));
+  } else {
+    payload = payload.meta;
+    if (!isJson(payload)) {
+      return callback(new HttpErrors.BadRequest('Payload meta must be a JSON object.', { expose: false }));
+    } else {
+      if (isNull(payload.value)) {
+        return callback(new HttpErrors.BadRequest('Value of ticket action is missing.', { expose: false }));
+      } else {
+        const url = `${BASE_URL}/ticketActions/remove?ticketActionValue=${payload.value}`;
         axios.delete(url, payload).then(response => {
           return callback(response);
         }).catch((error) => {
