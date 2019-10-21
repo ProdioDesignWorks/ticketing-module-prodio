@@ -6,7 +6,7 @@ const { stringify } = require('flatted/cjs');
 
 const {
   CREATETICKETTYPE, EDITTICKETTYPE, LISTTICKETTYPE, DELETETICKETTYPE,
-  CREATETICKETACTION, EDITTICKETACTION, LISTTICKETACTION, DELETETICKETACTION
+  TICKETDEFAULTACTIONS, CREATETICKETACTION, EDITTICKETACTION, LISTTICKETACTION, DELETETICKETACTION
 } = require('./config/constant');
 
 const isNull = function (val) {
@@ -40,6 +40,8 @@ function ticketModule(BASE_URL) {
       return listTicketType(BASE_URL, callback);
     } else if (payload.action === DELETETICKETTYPE) {
       return deleteTicketType(payload, BASE_URL, callback);
+    } else if (payload.action === TICKETDEFAULTACTIONS) {
+      return createDefaultTicketAction(payload, BASE_URL, callback);
     } else if (payload.action === CREATETICKETACTION) {
       return createTicketAction(payload, BASE_URL, callback);
     } else if (payload.action === EDITTICKETACTION) {
@@ -123,6 +125,16 @@ const deleteTicketType = function (payload, BASE_URL, callback) {
       }
     }
   }
+}
+
+const createDefaultTicketAction = function (payload, BASE_URL, callback) {
+  const url = `${BASE_URL}/ticketActions/defaultActions`;
+  axios.post(url, payload).then(response => {
+    return callback(response);
+  }).catch((error) => {
+    let json = stringify(error);
+    return callback(json);
+  });
 }
 
 const createTicketAction = function (payload, BASE_URL, callback) {

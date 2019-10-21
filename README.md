@@ -46,6 +46,9 @@ Require the ticketing-module-prodio module and initialize the ticketingSdk clien
 
  const ticket = require('ticketing-module-prodio');
  const ticketModule = new ticket("API BASE PATH OF TICKETING SERVICE");//http://domainname:3004/api
+
+ First Step is to create Default ticket actions. It is Mandatory.
+
  ``` 
 
 
@@ -136,6 +139,113 @@ Require the ticketing-module-prodio module and initialize the ticketingSdk clien
 	};
 	const payload = {
 		"action": "DELETETICKETTYPE",
+		"meta": metaInfo
+	};
+	let ticketType = ticketModule.execute(payload);
+```
+`5. Create Default Ticket Actions:`
+ This will create default ticket actions.
+
+### Payload
+
+| Key | Type | Value | Description | Required |
+| --- | ---- | ----- | ----------- | -------- |
+| `action` | string | `TICKETDEFAULTACTIONS` | key which defines the type of action to be performed | YES |
+| `meta` | json | refer example below | - | YES |
+
+#### Example
+```JSX
+	const metaInfo = {};
+	const payload = {
+		"action": "TICKETDEFAULTACTIONS",
+		"meta": metaInfo
+	};
+	let ticketType = ticketModule.execute(payload);
+```
+
+`6. Create Ticket Actions:`
+ This will create ticket actions.
+
+### Payload
+
+| Key | Type | Value | Description | Required |
+| --- | ---- | ----- | ----------- | -------- |
+| `action` | string | `CREATETICKETACTION` | key which defines the type of action to be performed | YES |
+| `meta` | json | refer example below | - | YES |
+
+#### Example
+```JSX
+	const metaInfo = {
+		"label": "Made a call", //mandatory
+		"value": "CALLED" //mandatory
+	};
+	const payload = {
+		"action": "CREATETICKETACTION",
+		"meta": metaInfo
+	};
+	let ticketType = ticketModule.execute(payload);
+```
+
+`7. Edit Ticket Actions:`
+ This will edit an existing ticket actions. This can only update the label.
+
+### Payload
+
+| Key | Type | Value | Description | Required |
+| --- | ---- | ----- | ----------- | -------- |
+| `action` | string | `EDITTICKETACTION` | key which defines the type of action to be performed | YES |
+| `meta` | json | refer example below | - | YES |
+
+#### Example
+```JSX
+	const metaInfo = {
+		"label": "Made a call", //mandatory
+		"value": "CALLED" //mandatory
+	};
+	const payload = {
+		"action": "EDITTICKETACTION",
+		"meta": metaInfo
+	};
+	let ticketType = ticketModule.execute(payload);
+```
+
+`8. List Ticket Actions:`
+ This will list all existing ticket actions.
+
+### Payload
+
+| Key | Type | Value | Description | Required |
+| --- | ---- | ----- | ----------- | -------- |
+| `action` | string | `LISTTICKETACTION` | key which defines the type of action to be performed | YES |
+| `meta` | json | refer example below | - | YES |
+
+#### Example
+```JSX
+	const metaInfo = {};
+	const payload = {
+		"action": "LISTTICKETACTION",
+		"meta": metaInfo
+	};
+	let ticketType = ticketModule.execute(payload);
+```
+
+`9. Delete Ticket Actions:`
+ This will delete an existing ticket actions. This can only update the label.
+
+### Payload
+
+| Key | Type | Value | Description | Required |
+| --- | ---- | ----- | ----------- | -------- |
+| `action` | string | `DELETETICKETACTION` | key which defines the type of action to be performed | YES |
+| `meta` | json | refer example below | - | YES |
+
+#### Example
+```JSX
+	const metaInfo = {
+		"value": "CALLED" //mandatory
+	};
+	const payload = {
+		"action": "DELETETICKETACTION",
 		"meta": metaInfo
 	};
 	let ticketType = ticketModule.execute(payload);
