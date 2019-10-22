@@ -6,7 +6,9 @@ const { stringify } = require('flatted/cjs');
 
 const {
   CREATETICKETTYPE, EDITTICKETTYPE, LISTTICKETTYPE, DELETETICKETTYPE,
-  TICKETDEFAULTACTIONS, CREATETICKETACTION, EDITTICKETACTION, LISTTICKETACTION, DELETETICKETACTION
+  TICKETDEFAULTACTIONS, CREATETICKETACTION, EDITTICKETACTION, LISTTICKETACTION, DELETETICKETACTION,
+  CREATETICKET, ASSIGNTICKET, UPDATEREPORTER, ACCEPTTICKET, HOLDUNHOLDTICKET,
+  CLOSETICKET, REOPENTICKET, TAKEACTION, TICKETDETAILS, LISTTICKETS
 } = require('./config/constant');
 
 const isNull = function (val) {
@@ -50,6 +52,26 @@ function ticketModule(BASE_URL) {
       return listTicketAction(payload, BASE_URL, callback);
     } else if (payload.action === DELETETICKETACTION) {
       return deleteTicketAction(payload, BASE_URL, callback);
+    } else if (payload.action === CREATETICKET) {
+      return createTicket(payload, BASE_URL, callback);
+    } else if (payload.action === ASSIGNTICKET) {
+      return assignTicket(payload, BASE_URL, callback);
+    } else if (payload.action === UPDATEREPORTER) {
+      return reportTicket(payload, BASE_URL, callback);
+    } else if (payload.action === ACCEPTTICKET) {
+      return acceptTicket(payload, BASE_URL, callback);
+    } else if (payload.action === HOLDUNHOLDTICKET) {
+      return holdUnholdTicket(payload, BASE_URL, callback);
+    } else if (payload.action === CLOSETICKET) {
+      return closeTicket(payload, BASE_URL, callback);
+    } else if (payload.action === REOPENTICKET) {
+      return reopenTicket(payload, BASE_URL, callback);
+    } else if (payload.action === TAKEACTION) {
+      return actionTicket(payload, BASE_URL, callback);
+    } else if (payload.action === TICKETDETAILS) {
+      return getTicket(payload, BASE_URL, callback);
+    } else if (payload.action === LISTTICKETS) {
+      return getAllTickets(payload, BASE_URL, callback);
     } else {
       return callback(new HttpErrors.BadRequest('Invalid Action.', { expose: false }));
     }
@@ -204,6 +226,242 @@ const deleteTicketAction = function (payload, BASE_URL, callback) {
           return callback(json);
         });
       }
+    }
+  }
+}
+
+const createTicket = function (payload, BASE_URL, callback) {
+  if (!isJson(payload)) {
+    return callback(new HttpErrors.BadRequest('Payload must be a JSON object.', { expose: false }));
+  } else {
+    payload = payload.meta;
+    if (!isJson(payload)) {
+      return callback(new HttpErrors.BadRequest('Payload meta must be a JSON object.', { expose: false }));
+    } else {
+      const url = `${BASE_URL}/tickets/add`;
+      const ticketPayload = {
+        ticketTypeValue: payload.ticketType,
+        title: payload.title,
+        desc: payload.desc,
+        reporterName: payload.reporterName,
+        reporterEmail: payload.reporterEmail,
+        reporterMetadata: isNull(payload.reporterMetadata) ? {} : payload.reporterMetadata,
+        assigneeName: payload.assigneeName,
+        assigneeEmail: payload.assigneeEmail,
+        assigneeMetadata: isNull(payload.assigneeMetadata) ? {} : payload.assigneeMetadata,
+        notes: isNull(payload.notes) ? "" : payload.notes
+      }
+      axios.post(url, ticketPayload).then(response => {
+        return callback(response);
+      }).catch((error) => {
+        let json = stringify(error);
+        return callback(json);
+      });
+    }
+  }
+}
+
+const assignTicket = function (payload, BASE_URL, callback) {
+  if (!isJson(payload)) {
+    return callback(new HttpErrors.BadRequest('Payload must be a JSON object.', { expose: false }));
+  } else {
+    payload = payload.meta;
+    if (!isJson(payload)) {
+      return callback(new HttpErrors.BadRequest('Payload meta must be a JSON object.', { expose: false }));
+    } else {
+      const url = `${BASE_URL}/tickets/assign`;
+      const ticketPayload = {
+        ticketId: payload.ticketId,
+        assigneeName: payload.assigneeName,
+        assigneeEmail: payload.assigneeEmail,
+        assigneeMetadata: isNull(payload.assigneeMetadata) ? {} : payload.assigneeMetadata,
+        notes: isNull(payload.notes) ? "" : payload.notes
+      }
+      axios.put(url, ticketPayload).then(response => {
+        return callback(response);
+      }).catch((error) => {
+        let json = stringify(error);
+        return callback(json);
+      });
+    }
+  }
+}
+
+const reportTicket = function (payload, BASE_URL, callback) {
+  if (!isJson(payload)) {
+    return callback(new HttpErrors.BadRequest('Payload must be a JSON object.', { expose: false }));
+  } else {
+    payload = payload.meta;
+    if (!isJson(payload)) {
+      return callback(new HttpErrors.BadRequest('Payload meta must be a JSON object.', { expose: false }));
+    } else {
+      const url = `${BASE_URL}/tickets/reporter`;
+      const ticketPayload = {
+        ticketId: payload.ticketId,
+        reporterName: payload.assigneeName,
+        reporterEmail: payload.assigneeEmail,
+        reporterMetadata: isNull(payload.reporterMetadata) ? {} : payload.reporterMetadata
+      }
+      axios.put(url, ticketPayload).then(response => {
+        return callback(response);
+      }).catch((error) => {
+        let json = stringify(error);
+        return callback(json);
+      });
+    }
+  }
+}
+
+const acceptTicket = function (payload, BASE_URL, callback) {
+  if (!isJson(payload)) {
+    return callback(new HttpErrors.BadRequest('Payload must be a JSON object.', { expose: false }));
+  } else {
+    payload = payload.meta;
+    if (!isJson(payload)) {
+      return callback(new HttpErrors.BadRequest('Payload meta must be a JSON object.', { expose: false }));
+    } else {
+      const url = `${BASE_URL}/tickets/accept`;
+      const ticketPayload = {
+        ticketId: payload.ticketId,
+        acceptedByEmail: payload.email
+      }
+      axios.put(url, ticketPayload).then(response => {
+        return callback(response);
+      }).catch((error) => {
+        let json = stringify(error);
+        return callback(json);
+      });
+    }
+  }
+}
+
+const holdUnholdTicket = function (payload, BASE_URL, callback) {
+  if (!isJson(payload)) {
+    return callback(new HttpErrors.BadRequest('Payload must be a JSON object.', { expose: false }));
+  } else {
+    payload = payload.meta;
+    if (!isJson(payload)) {
+      return callback(new HttpErrors.BadRequest('Payload meta must be a JSON object.', { expose: false }));
+    } else {
+      const url = `${BASE_URL}/tickets/hold`;
+      const ticketPayload = {
+        ticketId: payload.ticketId,
+        holdStatus: payload.holdStatus
+      }
+      axios.put(url, ticketPayload).then(response => {
+        return callback(response);
+      }).catch((error) => {
+        let json = stringify(error);
+        return callback(json);
+      });
+    }
+  }
+}
+
+const closeTicket = function (payload, BASE_URL, callback) {
+  if (!isJson(payload)) {
+    return callback(new HttpErrors.BadRequest('Payload must be a JSON object.', { expose: false }));
+  } else {
+    payload = payload.meta;
+    if (!isJson(payload)) {
+      return callback(new HttpErrors.BadRequest('Payload meta must be a JSON object.', { expose: false }));
+    } else {
+      const url = `${BASE_URL}/tickets/complete`;
+      const ticketPayload = {
+        ticketId: payload.ticketId,
+        note: payload.note
+      }
+      axios.put(url, ticketPayload).then(response => {
+        return callback(response);
+      }).catch((error) => {
+        let json = stringify(error);
+        return callback(json);
+      });
+    }
+  }
+}
+
+const reopenTicket = function (payload, BASE_URL, callback) {
+  if (!isJson(payload)) {
+    return callback(new HttpErrors.BadRequest('Payload must be a JSON object.', { expose: false }));
+  } else {
+    payload = payload.meta;
+    if (!isJson(payload)) {
+      return callback(new HttpErrors.BadRequest('Payload meta must be a JSON object.', { expose: false }));
+    } else {
+      const url = `${BASE_URL}/tickets/reopen`;
+      const ticketPayload = {
+        ticketId: payload.ticketId,
+        note: payload.note
+      }
+      axios.put(url, ticketPayload).then(response => {
+        return callback(response);
+      }).catch((error) => {
+        let json = stringify(error);
+        return callback(json);
+      });
+    }
+  }
+}
+
+const actionTicket = function (payload, BASE_URL, callback) {
+  if (!isJson(payload)) {
+    return callback(new HttpErrors.BadRequest('Payload must be a JSON object.', { expose: false }));
+  } else {
+    payload = payload.meta;
+    if (!isJson(payload)) {
+      return callback(new HttpErrors.BadRequest('Payload meta must be a JSON object.', { expose: false }));
+    } else {
+      const url = `${BASE_URL}/tickets/action`;
+      const ticketPayload = {
+        ticketId: payload.ticketId,
+        ticketAction: payload.action,
+        note: payload.note
+      }
+      axios.post(url, ticketPayload).then(response => {
+        return callback(response);
+      }).catch((error) => {
+        let json = stringify(error);
+        return callback(json);
+      });
+    }
+  }
+}
+
+const getTicket = function (payload, BASE_URL, callback) {
+  if (!isJson(payload)) {
+    return callback(new HttpErrors.BadRequest('Payload must be a JSON object.', { expose: false }));
+  } else {
+    payload = payload.meta;
+    if (!isJson(payload)) {
+      return callback(new HttpErrors.BadRequest('Payload meta must be a JSON object.', { expose: false }));
+    } else {
+      const url = `${BASE_URL}/tickets/details?ticketId=${payload.ticketId}`;
+      axios.get(url, payload).then(response => {
+        return callback(response);
+      }).catch((error) => {
+        let json = stringify(error);
+        return callback(json);
+      });
+    }
+  }
+}
+
+const getAllTickets = function (payload, BASE_URL, callback) {
+  if (!isJson(payload)) {
+    return callback(new HttpErrors.BadRequest('Payload must be a JSON object.', { expose: false }));
+  } else {
+    payload = payload.meta;
+    if (!isJson(payload)) {
+      return callback(new HttpErrors.BadRequest('Payload meta must be a JSON object.', { expose: false }));
+    } else {
+      const url = `${BASE_URL}/tickets/list?status=${payload.status}&number=${payload.number}&from=${payload.from}&to=${payload.to}&title=${payload.title}&assignee=${payload.assignee}`;
+      axios.get(url, payload).then(response => {
+        return callback(response);
+      }).catch((error) => {
+        let json = stringify(error);
+        return callback(json);
+      });
     }
   }
 }

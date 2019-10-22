@@ -250,3 +250,258 @@ Require the ticketing-module-prodio module and initialize the ticketingSdk clien
 	};
 	let ticketType = ticketModule.execute(payload);
 ```
+
+`10. Create Ticket:`
+ This will create a new ticket.
+
+### Payload
+
+| Key | Type | Value | Description | Required |
+| --- | ---- | ----- | ----------- | -------- |
+| `action` | string | `CREATETICKET` | key which defines the type of action to be performed | YES |
+| `meta` | json | refer example below | - | YES |
+
+#### Example
+```JSX
+	const metaInfo = {
+		"ticketType": "TASK", //mandatory - value attribute of ticket type
+		"title": "new ticket", //mandatory
+		"desc": "description", //mandatory
+		"reporterName": "Vatsal Shah", //mandatory
+		"reporterEmail": "vatsal.shah@prodio.in", //mandatory
+		"reporterMetadata": { //optional object
+			"userId": "1234"
+		},
+		"assigneeName": "Vatsal", //mandatory
+		"assigneeEmail": "vatsal@prodio.in", //mandatory
+		"assigneeMetadata": { //optional object
+			"userId": "1234"
+		},
+		"notes": "" //optional
+	};
+	const payload = {
+		"action": "CREATETICKET",
+		"meta": metaInfo
+	};
+	let ticketType = ticketModule.execute(payload);
+```
+
+`11. Assign/Reassign Ticket to an individual:`
+ This will assign/reassign an existing ticket to an individual.
+
+### Payload
+
+| Key | Type | Value | Description | Required |
+| --- | ---- | ----- | ----------- | -------- |
+| `action` | string | `ASSIGNTICKET` | key which defines the type of action to be performed | YES |
+| `meta` | json | refer example below | - | YES |
+
+#### Example
+```JSX
+	const metaInfo = {
+		"ticketId": "98765", //mandatory
+        "assigneeName": "Vatsal", //mandatory
+		"assigneeEmail": "vatsal@prodio.in", //mandatory
+		"assigneeMetadata": { //optional object
+			"userId": "1234"
+		},
+		"notes": "" //optional
+	};
+	const payload = {
+		"action": "ASSIGNTICKET",
+		"meta": metaInfo
+	};
+	let ticketType = ticketModule.execute(payload);
+```
+
+`12. Update Ticket reporter:`
+ This will update reporter of an existing ticket.
+
+### Payload
+
+| Key | Type | Value | Description | Required |
+| --- | ---- | ----- | ----------- | -------- |
+| `action` | string | `UPDATEREPORTER` | key which defines the type of action to be performed | YES |
+| `meta` | json | refer example below | - | YES |
+
+#### Example
+```JSX
+	const metaInfo = {
+		"ticketId": "98765", //mandatory
+        "reporterName": "Vatsal", //mandatory
+		"reporterEmail": "vatsal@prodio.in", //mandatory
+		"reporterMetadata": { //optional object
+			"userId": "1234"
+		}
+	};
+	const payload = {
+		"action": "UPDATEREPORTER",
+		"meta": metaInfo
+	};
+	let ticketType = ticketModule.execute(payload);
+```
+
+`13. Accept Ticket:`
+ This will accept a assigned ticket.
+
+### Payload
+
+| Key | Type | Value | Description | Required |
+| --- | ---- | ----- | ----------- | -------- |
+| `action` | string | `ACCEPTTICKET` | key which defines the type of action to be performed | YES |
+| `meta` | json | refer example below | - | YES |
+
+#### Example
+```JSX
+	const metaInfo = {
+		"ticketId": "98765", //mandatory
+		"email": "vatsal@prodio.in", //mandatory
+	};
+	const payload = {
+		"action": "ACCEPTTICKET",
+		"meta": metaInfo
+	};
+	let ticketType = ticketModule.execute(payload);
+```
+
+`14. Hold/Unhold Ticket:`
+ This will accept a assigned ticket.
+
+### Payload
+
+| Key | Type | Value | Description | Required |
+| --- | ---- | ----- | ----------- | -------- |
+| `action` | string | `HOLDUNHOLDTICKET` | key which defines the type of action to be performed | YES |
+| `meta` | json | refer example below | - | YES |
+
+#### Example
+```JSX
+	const metaInfo = {
+		"ticketId": "98765", //mandatory
+		"holdStatus": true, //mandatory - true or false
+	};
+	const payload = {
+		"action": "HOLDUNHOLDTICKET",
+		"meta": metaInfo
+	};
+	let ticketType = ticketModule.execute(payload);
+```
+
+`15. Close Ticket:`
+ This will close a assigned ticket.
+
+### Payload
+
+| Key | Type | Value | Description | Required |
+| --- | ---- | ----- | ----------- | -------- |
+| `action` | string | `CLOSETICKET` | key which defines the type of action to be performed | YES |
+| `meta` | json | refer example below | - | YES |
+
+#### Example
+```JSX
+	const metaInfo = {
+		"ticketId": "98765", //mandatory
+		"note": "", //optional
+	};
+	const payload = {
+		"action": "CLOSETICKET",
+		"meta": metaInfo
+	};
+	let ticketType = ticketModule.execute(payload);
+```
+
+`16. Reopen Ticket:`
+ This will reopen a closed ticket.
+
+### Payload
+
+| Key | Type | Value | Description | Required |
+| --- | ---- | ----- | ----------- | -------- |
+| `action` | string | `REOPENTICKET` | key which defines the type of action to be performed | YES |
+| `meta` | json | refer example below | - | YES |
+
+#### Example
+```JSX
+	const metaInfo = {
+		"ticketId": "98765", //mandatory
+		"note": "", //optional
+	};
+	const payload = {
+		"action": "REOPENTICKET",
+		"meta": metaInfo
+	};
+	let ticketType = ticketModule.execute(payload);
+```
+
+`17. Take action on Ticket:`
+ This is to perform action on a ticket.
+
+### Payload
+
+| Key | Type | Value | Description | Required |
+| --- | ---- | ----- | ----------- | -------- |
+| `action` | string | `TAKEACTION` | key which defines the type of action to be performed | YES |
+| `meta` | json | refer example below | - | YES |
+
+#### Example
+```JSX
+	const metaInfo = {
+		"ticketId": "98765", //mandatory
+		"action": "", //value of action created
+		"note": "", //optional
+	};
+	const payload = {
+		"action": "TAKEACTION",
+		"meta": metaInfo
+	};
+	let ticketType = ticketModule.execute(payload);
+```
+
+`18. Get Ticket Details:`
+ This is to get details of a ticket.
+
+### Payload
+
+| Key | Type | Value | Description | Required |
+| --- | ---- | ----- | ----------- | -------- |
+| `action` | string | `TICKETDETAILS` | key which defines the type of action to be performed | YES |
+| `meta` | json | refer example below | - | YES |
+
+#### Example
+```JSX
+	const metaInfo = {
+		"ticketId": "98765" //mandatory
+	};
+	const payload = {
+		"action": "TICKETDETAILS",
+		"meta": metaInfo
+	};
+	let ticketType = ticketModule.execute(payload);
+```
+
+`18. Get All Tickets :`
+ This is to get all tickets.
+
+### Payload
+
+| Key | Type | Value | Description | Required |
+| --- | ---- | ----- | ----------- | -------- |
+| `action` | string | `LISTTICKETS` | key which defines the type of action to be performed | YES |
+| `meta` | json | refer example below | - | YES |
+
+#### Example
+```JSX
+	const metaInfo = {
+		"status": "TODO,INPROGRESS,DONE",
+		"number": 1,
+		"from": "10/22/2019",
+		"to": "",
+		"title": "",
+		"assignee": "vatsal@prodio.in"
+	};
+	const payload = {
+		"action": "LISTTICKETS",
+		"meta": metaInfo
+	};
+	let ticketType = ticketModule.execute(payload);
+```
