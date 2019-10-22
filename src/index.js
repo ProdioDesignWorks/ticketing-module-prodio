@@ -197,7 +197,7 @@ const editTicketAction = function (payload, BASE_URL, callback) {
   }
 }
 
-const listTicketAction = function (BASE_URL, callback) {
+const listTicketAction = function (payload, BASE_URL, callback) {
   const url = `${BASE_URL}/ticketActions/list`;
   axios.get(url, payload).then(response => {
     return callback(response);
