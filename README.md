@@ -67,6 +67,7 @@ Require the ticketing-module-prodio module and initialize the ticketingSdk clien
 #### Example
 ```JSX
 	const metaInfo = {
+		"businessId": "" //mandatory
 		"label": "Task", //mandatory
 		"value": "TASK", //mandatory
 		"hexcode": "#ffffff" //optional
@@ -91,6 +92,7 @@ Require the ticketing-module-prodio module and initialize the ticketingSdk clien
 #### Example
 ```JSX
 	const metaInfo = {
+		"businessId": "" //mandatory
 		"label": "Task", //mandatory
 		"value": "TASK", //mandatory
 		"hexcode": "#ffffff" //optional
@@ -114,7 +116,9 @@ Require the ticketing-module-prodio module and initialize the ticketingSdk clien
 
 #### Example
 ```JSX
-	const metaInfo = {};
+	const metaInfo = {
+		"businessId": "" //mandatory
+	};
 	const payload = {
 		"action": "LISTTICKETTYPE",
 		"meta": metaInfo
@@ -135,6 +139,7 @@ Require the ticketing-module-prodio module and initialize the ticketingSdk clien
 #### Example
 ```JSX
 	const metaInfo = {
+		"businessId": "" //mandatory
 		"value": "TASK", //mandatory
 	};
 	const payload = {
@@ -176,6 +181,7 @@ Require the ticketing-module-prodio module and initialize the ticketingSdk clien
 #### Example
 ```JSX
 	const metaInfo = {
+		"businessId": "" //mandatory
 		"label": "Made a call", //mandatory
 		"value": "CALLED" //mandatory
 	};
@@ -199,6 +205,7 @@ Require the ticketing-module-prodio module and initialize the ticketingSdk clien
 #### Example
 ```JSX
 	const metaInfo = {
+		"businessId": "" //mandatory
 		"label": "Made a call", //mandatory
 		"value": "CALLED" //mandatory
 	};
@@ -221,7 +228,9 @@ Require the ticketing-module-prodio module and initialize the ticketingSdk clien
 
 #### Example
 ```JSX
-	const metaInfo = {};
+	const metaInfo = {
+		"businessId": "" //mandatory
+	};
 	const payload = {
 		"action": "LISTTICKETACTION",
 		"meta": metaInfo
@@ -242,6 +251,7 @@ Require the ticketing-module-prodio module and initialize the ticketingSdk clien
 #### Example
 ```JSX
 	const metaInfo = {
+		"businessId": "" //mandatory
 		"value": "CALLED" //mandatory
 	};
 	const payload = {
@@ -264,6 +274,7 @@ Require the ticketing-module-prodio module and initialize the ticketingSdk clien
 #### Example
 ```JSX
 	const metaInfo = {
+		"businessId" : "", //mandatory
 		"ticketType": "TASK", //mandatory - value attribute of ticket type
 		"title": "new ticket", //mandatory
 		"desc": "description", //mandatory
@@ -299,6 +310,7 @@ Require the ticketing-module-prodio module and initialize the ticketingSdk clien
 #### Example
 ```JSX
 	const metaInfo = {
+		"businessId" : "", //mandatory
 		"ticketId": "98765", //mandatory
         "assigneeName": "Vatsal", //mandatory
 		"assigneeEmail": "vatsal@prodio.in", //mandatory
@@ -327,6 +339,7 @@ Require the ticketing-module-prodio module and initialize the ticketingSdk clien
 #### Example
 ```JSX
 	const metaInfo = {
+		"businessId" : "", //mandatory
 		"ticketId": "98765", //mandatory
         "reporterName": "Vatsal", //mandatory
 		"reporterEmail": "vatsal@prodio.in", //mandatory
@@ -354,6 +367,7 @@ Require the ticketing-module-prodio module and initialize the ticketingSdk clien
 #### Example
 ```JSX
 	const metaInfo = {
+		"businessId" : "", //mandatory
 		"ticketId": "98765", //mandatory
 		"email": "vatsal@prodio.in", //mandatory
 	};
@@ -377,6 +391,7 @@ Require the ticketing-module-prodio module and initialize the ticketingSdk clien
 #### Example
 ```JSX
 	const metaInfo = {
+		"businessId" : "", //mandatory
 		"ticketId": "98765", //mandatory
 		"holdStatus": true, //mandatory - true or false
 	};
@@ -400,6 +415,7 @@ Require the ticketing-module-prodio module and initialize the ticketingSdk clien
 #### Example
 ```JSX
 	const metaInfo = {
+		"businessId" : "", //mandatory
 		"ticketId": "98765", //mandatory
 		"note": "", //optional
 	};
@@ -423,6 +439,7 @@ Require the ticketing-module-prodio module and initialize the ticketingSdk clien
 #### Example
 ```JSX
 	const metaInfo = {
+		"businessId" : "", //mandatory
 		"ticketId": "98765", //mandatory
 		"note": "", //optional
 	};
@@ -446,6 +463,7 @@ Require the ticketing-module-prodio module and initialize the ticketingSdk clien
 #### Example
 ```JSX
 	const metaInfo = {
+		"businessId" : "", //mandatory
 		"ticketId": "98765", //mandatory
 		"action": "", //value of action created
 		"note": "", //optional
@@ -470,6 +488,7 @@ Require the ticketing-module-prodio module and initialize the ticketingSdk clien
 #### Example
 ```JSX
 	const metaInfo = {
+		"businessId" : "", //mandatory
 		"ticketId": "98765" //mandatory
 	};
 	const payload = {
@@ -492,6 +511,7 @@ Require the ticketing-module-prodio module and initialize the ticketingSdk clien
 #### Example
 ```JSX
 	const metaInfo = {
+		"businessId" : "", //mandatory
 		"status": "TODO,INPROGRESS,DONE",
 		"number": 1,
 		"from": "10/22/2019",
