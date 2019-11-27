@@ -1,6 +1,6 @@
 {
     "name": "ticketing-module-prodio",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "description": "NPM for consuming prodio ticketing service",
     "main": "lib/index.js",
     "scripts": {

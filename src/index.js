@@ -234,17 +234,13 @@ const listTicketAction = function(payload, BASE_URL, callback) {
         if (!isJson(payload)) {
             return callback(new HttpErrors.BadRequest('Payload meta must be a JSON object.', { expose: false }));
         } else {
-            if (isNull(payload.businessId)) {
-                return callback(new HttpErrors.BadRequest('Missing business details.', { expose: false }));
-            } else {
-                const url = `${BASE_URL}/ticketActions/list?businessId=${payload.businessId}`;
-                axios.get(url, payload).then(response => {
-                    return callback(response);
-                }).catch((error) => {
-                    let json = stringify(error);
-                    return callback(json);
-                });
-            }
+            const url = `${BASE_URL}/ticketActions/list`;
+            axios.get(url, payload).then(response => {
+                return callback(response);
+            }).catch((error) => {
+                let json = stringify(error);
+                return callback(json);
+            });
         }
     }
 }
@@ -259,10 +255,8 @@ const deleteTicketAction = function(payload, BASE_URL, callback) {
         } else {
             if (isNull(payload.value)) {
                 return callback(new HttpErrors.BadRequest('Value of ticket action is missing.', { expose: false }));
-            } else if (isNull(payload.businessId)) {
-                return callback(new HttpErrors.BadRequest('Missing business details.', { expose: false }));
             } else {
-                const url = `${BASE_URL}/ticketActions/remove?ticketActionValue=${payload.value}&businessId=${payload.businessId}`;
+                const url = `${BASE_URL}/ticketActions/remove?ticketActionValue=${payload.value}`;
                 axios.delete(url, payload).then(response => {
                     return callback(response);
                 }).catch((error) => {
